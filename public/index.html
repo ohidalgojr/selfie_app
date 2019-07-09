@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Doidera</title>
+    </head>
+    <body>
+        <script>
+            if ('geolocation' in navigator){
+                console.log('geolocation available');
+                navigator.geolocation.getCurrentPosition(async position =>{
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    document.getElementById('lat').textContent = lat;
+                    document.getElementById('lon').textContent = lon;
+
+                    const geo = {lat, lon};
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(geo)
+                    };
+                    const response = await fetch('/api', options);
+                    const data = await response.json();
+                    console.log(data);
+                });
+            }else{
+                console.log('geolocation not available');
+            }
+        </script>
+        <h1>Data selfie app!</h1>
+        <p>Latitude: <span id="lat"></span></p>
+        <p>Longitude: <span id="lon"></span></p>
+    </body>
+</html>
