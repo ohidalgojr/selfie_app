@@ -1,51 +1,19 @@
 <html>
-    <head>
-        <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" integrity="sha256-2/3R3NV5zryj0fDjD3cDh+SNiWQ/TJiMVZzAo5FrhiU=" crossorigin="anonymous"></script>
-        <title>App</title>
-    </head>
-    <body>
-        <h1>Data selfie app!</h1>
-            <p>Latitude: <span id="lat"></span></p>
-            <p>Longitude: <span id="lon"></span></p>
-            <p><button id="geolocate">Click!</button></p>
-        <script>
-            function setup(){
-                noCanvas();
-                const video = createCapture(VIDEO);
-                video.size(320,240);
 
-                document.getElementById('geolocate').addEventListener('click', event => {
-                    if ('geolocation' in navigator){
-                        navigator.geolocation.getCurrentPosition(async position =>{
-                            const lat = position.coords.latitude;
-                            const lon = position.coords.longitude;
-                            video.loadPixels();
-                            const image64 = video.canvas.toDataURL();
+<head>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js> </script> <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"
+        integrity="sha256-2/3R3NV5zryj0fDjD3cDh+SNiWQ/TJiMVZzAo5FrhiU=" crossorigin="anonymous"></script>
+    <title>App</title>
+</head>
 
-                            document.getElementById('lat').textContent = lat;
-                            document.getElementById('lon').textContent = lon;
+<body>
+    <h1>Data selfie app!</h1>
+    <p>Latitude: <span id="lat"></span></p>
+    <p>Longitude: <span id="lon"></span></p>
+    <p><button id="geolocate">Click!</button></p>
+    <script src="app.js"></script>
 
-                            const data = {lat, lon, image64};
-                            const options = {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(data)
-                            };
-                            const response = await fetch('/api', options);
-                            const geo = await response.json();
-                        });
-                    }else{
-                        console.log('geolocation not available');
-                    }
+</body>
 
-                });
-            }
-
-
-        </script>
-
-    </body>
 </html>
